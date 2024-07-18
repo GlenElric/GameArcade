@@ -1,6 +1,6 @@
 import pygame
 import sys
-from games import tetris, paint_canvas, snake_and_ladder, tic_tac_toe, ping_pong, guesscolor, HANDCRI
+from games import tetris, paint_canvas, snake_and_ladder, tic_tac_toe, ping_pong, guesscolor, HANDCRI,Snake
 from database import Database
 from login import login
 from admin import Admin
@@ -41,7 +41,9 @@ games = [
     {"name": "Paint Canvas", "game": paint_canvas.PaintCanvas()},
     {"name": "Guess the Color", "game": guesscolor.GuessColor()},
     {"name": "Snake and Ladder", "game": snake_and_ladder.SnakeLadder()},
-    {"name": "Tic Tac Toe", "game": tic_tac_toe.TicTacToe()}
+    {"name": "Tic Tac Toe", "game": tic_tac_toe.TicTacToe()},
+    {"name":"Snake Game","game":Snake.SnakeGame()},
+    {"name":"Mind Cricket","game":HANDCRI.HandCricket()}
 ]
 
 # Main game loop
