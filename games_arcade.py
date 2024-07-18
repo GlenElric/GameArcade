@@ -1,6 +1,6 @@
 import pygame
 import sys
-from games import tetris, paint_canvas, snake_and_ladder, tic_tac_toe, ping_pong, guesscolor
+from games import tetris, paint_canvas, snake_and_ladder, tic_tac_toe, ping_pong, guesscolor, HANDCRI
 from database import Database
 from login import login
 from admin import Admin
