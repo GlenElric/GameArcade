@@ -1,11 +1,17 @@
 import mysql.connector
+from flask import session
 
 class login:
+    def is_logged_in(self):
+        if 'user_id' in session:
+            return True
+        else:
+            return False
     def __init__(self,db):
         self.host = 'localhost'
         self.username = 'root'
         self.password = 'glenelric'
-        self.database = 'game_arcade'
+        self.database = 'games_arcade'
 
         self.cnx = mysql.connector.connect(
             user=self.username,

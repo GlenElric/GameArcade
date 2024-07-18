@@ -1,11 +1,11 @@
 import mysql.connector
 
 class Admin:
-    def __init__(self):
+    def __init__(self,db):
         self.host = 'localhost'
-        self.username = 'your_username'
-        self.password = 'your_password'
-        self.database = 'game_arcade'
+        self.username = 'root'
+        self.password = 'glenelric'
+        self.database = 'games_arcade'
 
         self.cnx = mysql.connector.connect(
             user=self.username,

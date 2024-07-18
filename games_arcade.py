@@ -62,7 +62,7 @@ while True:
         screen.blit(text, (game_list_rect.x + 10, game_list_rect.y + 10 + i * 30))
 
     # Handle login and signup
-    if not login.is_logged_in():
+    if not login_system.is_logged_in():
         login.draw_login_screen(screen)
     else:
         # Draw the game selection screen
