@@ -2,7 +2,7 @@ import pygame
 import random
 
 class PaintCanvas:
-    def __init__(self):
+    def __init__(self,screen=None):
         self.WIDTH = 1000
         self.HEIGHT = 1000
         self.colors = ["red", "green", "blue", "yellow", "indigo", "orange", "grey", "purple", "pink", "navy", "brown", "cyan", "lime", "magenta"]
