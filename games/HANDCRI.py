@@ -3,7 +3,7 @@ import random
 import sys
 
 class HandCricket:
-    def __init__(self):
+    def __init__(self,screen):
         pygame.init()
         self.SCREEN_WIDTH = 800
         self.SCREEN_HEIGHT = 600

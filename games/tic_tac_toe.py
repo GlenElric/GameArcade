@@ -2,7 +2,7 @@ import pygame
 import sys
 
 class TicTacToe:
-    def __init__(self, screen):
+    def __init__(self, screen,return_to_menu_callback=None):
         self.WIDTH = 600
         self.HEIGHT = 600
         self.board = [[None for _ in range(3)] for _ in range(3)]
@@ -11,7 +11,7 @@ class TicTacToe:
         self.tie = False
 
         self.screen = screen
-
+        self.return_to_menu_callback = return_to_menu_callback
         pygame.init()
         self.clock = pygame.time.Clock()
 
@@ -68,7 +68,12 @@ class TicTacToe:
                 if cell is None:
                     return False
         return True
-
+    
+    def reset_game(self):
+        self.board = [[None for _ in range(3)] for _ in range(3)]
+        self.current_player = 'X'
+        self.winner = None
+        self.tie = False
 
     def blur_screen(self):
         surface = pygame.Surface((self.WIDTH, self.HEIGHT))

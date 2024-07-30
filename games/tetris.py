@@ -9,8 +9,9 @@ class Tetris:
     GRID_HEIGHT = 20
     CELL_SIZE = 30
 
-    def __init__(self, screen=None):
+    def __init__(self, screen, return_to_menu_callback=None):
         self.screen = screen
+        self.return_to_menu_callback = return_to_menu_callback
         pygame.font.init()
         self.clock = pygame.time.Clock()
         self.grid = [[0 for _ in range(self.GRID_WIDTH)] for _ in range(self.GRID_HEIGHT)]
@@ -134,13 +135,14 @@ class Tetris:
         button_width = 150
         button_height = 50
         button_margin = 20
+        button_x = self.SCREEN_WIDTH - button_width - button_margin
         button_y = self.SCREEN_HEIGHT - button_height - button_margin
-        pygame.draw.rect(self.screen, (0, 0, 0), (self.SCREEN_WIDTH - button_width - button_margin, button_y, button_width, button_height))
-        pygame.draw.rect(self.screen, (0, 0, 0), (self.SCREEN_WIDTH - 2 * button_width - 2 * button_margin, button_y, button_width, button_height))
+        pygame.draw.rect(self.screen, (0, 0, 0), (button_x, button_y, button_width, button_height))
+        pygame.draw.rect(self.screen, (0, 0, 0), (button_x - button_width - button_margin, button_y, button_width, button_height))
         reset_text = self.button_font.render('Reset Game', True, (255, 255, 255))
         main_menu_text = self.button_font.render('Main Menu', True, (255, 255, 255))
-        self.screen.blit(reset_text, (self.SCREEN_WIDTH - button_width - button_margin + 10, button_y + 10))
-        self.screen.blit(main_menu_text, (self.SCREEN_WIDTH - 2 * button_width - 2 * button_margin + 10, button_y + 10))
+        self.screen.blit(reset_text, (button_x + 10, button_y + 10))
+        self.screen.blit(main_menu_text, (button_x - button_width - button_margin + 10, button_y + 10))
 
     def game_over(self):
         print(f"Game Over! Your score was {self.score}")
@@ -181,7 +183,10 @@ class Tetris:
                     if pygame.Rect(self.SCREEN_WIDTH - button_width - button_margin, button_y, button_width, button_height).collidepoint(pos):
                         self.reset_game()
                     elif pygame.Rect(self.SCREEN_WIDTH - 2 * button_width - 2 * button_margin, button_y, button_width, button_height).collidepoint(pos):
-                        pygame.quit()
+                        if self.return_to_menu_callback:
+                            self.return_to_menu_callback()
+                        else:
+                            pygame.quit()
                         return
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_LEFT:

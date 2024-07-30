@@ -1,12 +1,10 @@
 import pygame
-import time
 import random
 
 class SnakeGame:
     def __init__(self):
         # Initialize Pygame
         pygame.init()
-
         # Define the colors
         self.white = (255, 255, 255)
         self.yellow = (255, 255, 102)
@@ -14,6 +12,7 @@ class SnakeGame:
         self.red = (213, 50, 80)
         self.green = (0, 255, 0)
         self.blue = (50, 153, 213)
+        self.gray = (169, 169, 169)
 
         # Define the display dimensions
         self.dis_width = 800
@@ -52,6 +51,39 @@ class SnakeGame:
         self.foodx = round(random.randrange(0, self.dis_width - self.snake_block) / 10.0) * 10.0
         self.foody = round(random.randrange(0, self.dis_height - self.snake_block) / 10.0) * 10.0
 
+    def draw_button(self, msg, color, x, y, w, h, action=None):
+        mouse = pygame.mouse.get_pos()
+        click = pygame.mouse.get_pressed()
+        
+        if x + w > mouse[0] > x and y + h > mouse[1] > y:
+            pygame.draw.rect(self.dis, self.gray, [x, y, w, h])
+            if click[0] == 1 and action is not None:
+                action()
+        else:
+            pygame.draw.rect(self.dis, color, [x, y, w, h])
+        
+        text = self.font_style.render(msg, True, self.black)
+        self.dis.blit(text, (x + 10, y + 10))
+
+    def main_menu(self):
+        menu = True
+        while menu:
+            self.dis.fill(self.blue)
+            self.message("Snake Game", self.white)
+            self.draw_button("Play", self.green, 150, 400, 100, 50, self.start_game)
+            self.draw_button("Quit", self.red, 550, 400, 100, 50, pygame.quit)
+
+            pygame.display.update()
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+
+    def start_game(self):
+        self.reset_game()
+        self.gameLoop()
+
     def our_snake(self):
         for x in self.snake_List:
             pygame.draw.rect(self.dis, self.black, [x[0], x[1], self.snake_block, self.snake_block])
@@ -66,11 +98,11 @@ class SnakeGame:
 
     def gameLoop(self):
         while not self.game_over:
-
             while self.game_close:
                 self.dis.fill(self.blue)
                 self.message("You Lost! Press Q-Quit or C-Play Again", self.red)
                 self.your_score(self.Length_of_snake - 1)
+                self.draw_button("Main Menu", self.green, 300, 500, 200, 50, self.main_menu)
                 pygame.display.update()
 
                 for event in pygame.event.get():
@@ -130,4 +162,4 @@ class SnakeGame:
 
 if __name__ == "__main__":
     game = SnakeGame()
-    game.gameLoop()
+    game.main_menu()
