@@ -9,8 +9,10 @@ class Tetris:
     GRID_HEIGHT = 20
     CELL_SIZE = 30
 
-    def __init__(self, screen, return_to_menu_callback=None):
-        self.screen = screen
+    def __init__(self, screen=None, return_to_menu_callback=None):
+        pygame.init()
+        self.screen = pygame.display.set_mode((self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
+        pygame.display.set_caption('Tetris')
         self.return_to_menu_callback = return_to_menu_callback
         pygame.font.init()
         self.clock = pygame.time.Clock()
@@ -38,6 +40,7 @@ class Tetris:
         self.time_bonus_factor = 0.1  # Time bonus factor for scoring
         self.font = pygame.font.Font(None, 36)
         self.button_font = pygame.font.Font(None, 36)
+        self.reset_game()
 
     def generate_piece(self):
         shape = random.choice(self.piece_shapes)
@@ -132,7 +135,7 @@ class Tetris:
         self.screen.blit(surface, (0, 0))
 
     def draw_buttons(self):
-        button_width = 150
+        button_width = 75
         button_height = 50
         button_margin = 20
         button_x = self.SCREEN_WIDTH - button_width - button_margin
@@ -155,9 +158,6 @@ class Tetris:
         exit()
 
     def run(self):
-        pygame.init()
-        self.screen = pygame.display.set_mode((self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
-        pygame.display.set_caption('Tetris')
         self.current_piece = self.generate_piece()
         self.next_piece = self.generate_piece()
         self.score = 0
@@ -179,15 +179,12 @@ class Tetris:
                     button_width = 150
                     button_height = 50
                     button_margin = 20
+                    button_x = self.SCREEN_WIDTH - button_width - button_margin
                     button_y = self.SCREEN_HEIGHT - button_height - button_margin
-                    if pygame.Rect(self.SCREEN_WIDTH - button_width - button_margin, button_y, button_width, button_height).collidepoint(pos):
+                    if button_x <= pos[0] <= button_x + button_width and button_y <= pos[1] <= button_y + button_height:
                         self.reset_game()
-                    elif pygame.Rect(self.SCREEN_WIDTH - 2 * button_width - 2 * button_margin, button_y, button_width, button_height).collidepoint(pos):
-                        if self.return_to_menu_callback:
-                            self.return_to_menu_callback()
-                        else:
-                            pygame.quit()
-                        return
+                    elif button_x - button_width - button_margin <= pos[0] <= button_x - button_margin and button_y <= pos[1] <= button_y + button_height:
+                        self.return_to_menu_callback()
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_LEFT:
                         self.move_piece_left()
@@ -198,24 +195,30 @@ class Tetris:
                     elif event.key == pygame.K_UP:
                         self.rotate_piece()
 
-            self.screen.fill(pygame.Color('PeachPuff'))
+            self.screen.fill((255, 255, 255))
             self.draw_grid()
             self.draw_piece(self.current_piece)
             self.draw_buttons()
-            score_text = self.font.render("Score: " + str(self.score), True, (0, 0, 0))
-            time_text = self.font.render(f"Time: {self.time_elapsed}", True, (0, 0, 0))
+            score_text = self.font.render(f'Score: {self.score}', True, (0, 0, 0))
+            elapsed_time_text = self.font.render(f'Time Elapsed: {self.time_elapsed} sec', True, (0, 0, 0))
             self.screen.blit(score_text, (10, 10))
-            self.screen.blit(time_text, (10, 50))
+            self.screen.blit(elapsed_time_text, (10, 50))
             pygame.display.flip()
-            self.clock.tick(30)  # Fixed frame rate
+            self.clock.tick(60)
 
     def reset_game(self):
         self.grid = [[0 for _ in range(self.GRID_WIDTH)] for _ in range(self.GRID_HEIGHT)]
         self.current_piece = self.generate_piece()
         self.next_piece = self.generate_piece()
         self.score = 0
-        self.fall_time = pygame.time.get_ticks()
         self.start_time = time.time()
 
+def main_menu():
+    print("Main Menu")
+
+def main():
+    tetris = Tetris(screen=pygame.display.set_mode((Tetris.SCREEN_WIDTH, Tetris.SCREEN_HEIGHT)), return_to_menu_callback=main_menu)
+    tetris.run()
+
 if __name__ == "__main__":
-    Tetris().run()
+    main()

@@ -180,7 +180,7 @@ def main_menu():
                     game = ping_pong.PingPong(lambda: main_menu())
                     game.run()
                 elif buttons['Snake Game'].collidepoint(pos):
-                    game = Snake.SnakeGame(screen)
+                    game = Snake.SnakeGame()
                     game.gameLoop()
                 elif buttons['Hand Cricket'].collidepoint(pos):
                     game = HANDCRI.HandCricket(screen, lambda: main_menu())

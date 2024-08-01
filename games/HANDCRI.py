@@ -3,7 +3,7 @@ import random
 import sys
 
 class HandCricket:
-    def __init__(self,screen):
+    def __init__(self, screen):
         pygame.init()
         self.SCREEN_WIDTH = 800
         self.SCREEN_HEIGHT = 600
@@ -19,6 +19,9 @@ class HandCricket:
         self.run_buttons = self.create_buttons([str(i) for i in range(1, 7)], 500)
         self.end_buttons = self.create_buttons(["Play Again", "Quit"], self.SCREEN_HEIGHT - 100)
         self.reset_game()
+
+        # Load the background image
+        self.background_image = pygame.image.load('cricket.png')
 
     def reset_game(self):
         """Reset the game state to start a new game."""
@@ -81,6 +84,7 @@ class HandCricket:
         """Main game logic for handling the game flow and user interactions."""
         while True:
             self.screen.fill(self.WHITE)  # Clear the screen with a white background
+            self.screen.blit(self.background_image, (0, 0))  # Blit the background image
 
             if not self.coin_flip_done:
                 self.display_message('Call Heads or Tails', 150)
@@ -199,5 +203,5 @@ class HandCricket:
         self.game_logic()
 
 if __name__ == "__main__":
-    game = HandCricket()
+    game = HandCricket(screen=None)
     game.main()

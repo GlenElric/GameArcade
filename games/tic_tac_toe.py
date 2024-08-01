@@ -3,8 +3,8 @@ import sys
 
 class TicTacToe:
     def __init__(self, screen,return_to_menu_callback=None):
-        self.WIDTH = 600
-        self.HEIGHT = 600
+        self.WIDTH = 500
+        self.HEIGHT = 500
         self.board = [[None for _ in range(3)] for _ in range(3)]
         self.current_player = 'X'
         self.winner = None

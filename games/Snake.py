@@ -27,7 +27,7 @@ class SnakeGame:
 
         # Snake block size and speed
         self.snake_block = 10
-        self.snake_speed = 15
+        self.snake_speed = 5
 
         # Define the font styles
         self.font_style = pygame.font.SysFont(None, 50)

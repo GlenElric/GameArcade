@@ -140,11 +140,11 @@ class GuessColor:
                         self.countdown()
 
             self.screen.fill(self.background)
-            self.screen.blit(self.instruction_text, (50, 20))
-            self.screen.blit(self.score_text, (50, 60))
-            self.screen.blit(self.time_text, (600, 20))
+            self.screen.blit(self.instruction_text, (50, 60))  # Moved down to avoid overlap
+            self.screen.blit(self.score_text, (50, 100))
+            self.screen.blit(self.time_text, (600, 20))  # Moved slightly up
             self.screen.blit(self.label_text, (350, 200))
-            self.screen.blit(self.highscore_text, (50, 100))
+            self.screen.blit(self.highscore_text, (50, 140))
 
             pygame.draw.rect(self.screen, (255, 255, 255), self.input_box)
             self.screen.blit(self.input_box_text, (self.input_box.x + 10, self.input_box.y + 10))
